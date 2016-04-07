@@ -3,6 +3,8 @@ package pl.com.bottega.ecommerce.sales.domain.invoicing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.times;
 
 import java.math.BigDecimal;
 
@@ -39,6 +41,17 @@ public class BookKeeperTest {
 		when(taxPolicy.calculateTax(any(ProductType.class), any(Money.class))).thenReturn(new Tax(new Money(BigDecimal.valueOf(10)), "TT"));
 		Invoice invoice = bookKeeper.issuance(invReq, taxPolicy);
 		assertThat(invoice.getItems().size(), equalTo(1));
+	}
+	
+	@Test
+	public void zadanieFakturyZDwomaPozycjamiWywolujeCalculateTaxDwaRazy() {
+		InvoiceRequest invReq = new InvoiceRequest(client);
+		invReq.add(new RequestItem(productData, 1, new Money(BigDecimal.valueOf(100))));
+		invReq.add(new RequestItem(productData, 1, new Money(BigDecimal.valueOf(200))));
+		TaxPolicy taxPolicy = mock(TaxPolicy.class);
+		when(taxPolicy.calculateTax(any(ProductType.class), any(Money.class))).thenReturn(new Tax(new Money(BigDecimal.valueOf(10)), "TT"));
+		bookKeeper.issuance(invReq, taxPolicy);
+		verify(taxPolicy, times(2)).calculateTax(any(ProductType.class), any(Money.class));
 	}
 	
 }
