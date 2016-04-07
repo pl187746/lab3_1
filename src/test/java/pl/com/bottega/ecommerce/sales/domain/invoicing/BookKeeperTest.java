@@ -48,12 +48,21 @@ public class BookKeeperTest {
 		for(int i = 0; i < n; ++i)
 			invoiceRequest.add(new RequestItem(productData, 1, someMoney));
 	}
-
+	
+	private void zadanieFakturyZNPozycjamiZwracaFaktureZNPozycjami(int n) {
+		addRequestItems(n);
+		Invoice invoice = bookKeeper.issuance(invoiceRequest, taxPolicy);
+		assertThat(invoice.getItems().size(), equalTo(n));
+	}
+	
 	@Test
 	public void zadanieFakturyZJednaPozycjaZwracaFaktureZJednaPozycja() {
-		addRequestItems(1);
-		Invoice invoice = bookKeeper.issuance(invoiceRequest, taxPolicy);
-		assertThat(invoice.getItems().size(), equalTo(1));
+		zadanieFakturyZNPozycjamiZwracaFaktureZNPozycjami(1);
+	}
+	
+	@Test
+	public void zadanieFakturyZWielomaPozycjamiZwracaFaktureZWlasciwaLiczbaPozycji() {
+		zadanieFakturyZNPozycjamiZwracaFaktureZNPozycjami(12);
 	}
 	
 	@Test
@@ -62,5 +71,6 @@ public class BookKeeperTest {
 		bookKeeper.issuance(invoiceRequest, taxPolicy);
 		verify(taxPolicy, times(2)).calculateTax(any(ProductType.class), any(Money.class));
 	}
+	
 	
 }
