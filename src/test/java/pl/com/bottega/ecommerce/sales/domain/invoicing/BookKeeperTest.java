@@ -3,6 +3,7 @@ package pl.com.bottega.ecommerce.sales.domain.invoicing;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.argThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -38,6 +39,7 @@ public class BookKeeperTest {
 	@Before
 	public void setUp() {
 		productData = mock(ProductData.class);
+		when(productData.getPrice()).thenReturn(someMoney);
 		invoiceRequest = new InvoiceRequest(client);
 		taxPolicy = mock(TaxPolicy.class);
 		when(taxPolicy.calculateTax(any(ProductType.class), any(Money.class))).thenReturn(someTax);
@@ -72,5 +74,11 @@ public class BookKeeperTest {
 		verify(taxPolicy, times(2)).calculateTax(any(ProductType.class), any(Money.class));
 	}
 	
+	@Test
+	public void zadanieFakturyWywolujeCalculateTaxZWlasciwaKwota() {
+		addRequestItems(1);
+		bookKeeper.issuance(invoiceRequest, taxPolicy);
+		verify(taxPolicy, times(1)).calculateTax(any(ProductType.class), argThat(equalTo(someMoney)));
+	}
 	
 }
