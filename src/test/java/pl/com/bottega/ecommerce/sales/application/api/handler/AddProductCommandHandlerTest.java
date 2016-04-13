@@ -60,5 +60,13 @@ public class AddProductCommandHandlerTest {
 		addProductCommandHandler.handle(addProductCommand);
 		assertThat(reservation.contains(product), is(true));
 	}
+	
+	@Test
+	public void liczbyDodanychTakichSamychProduktowSumujaSie()
+	{
+		addProductCommandHandler.handle(addProductCommand);
+		addProductCommandHandler.handle(addProductCommand);
+		assertThat(reservation.getReservedProducts().get(0).getQuantity(), is(2));
+	}
 
 }
