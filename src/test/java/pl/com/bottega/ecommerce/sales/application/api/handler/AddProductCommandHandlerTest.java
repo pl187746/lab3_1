@@ -6,6 +6,7 @@ import static org.hamcrest.Matchers.is;
 import static org.mockito.Matchers.argThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.verify;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -65,19 +66,23 @@ public class AddProductCommandHandlerTest {
 	}
 	
 	@Test
-	public void liczbyDodanychTakichSamychProduktowSumujaSie()
-	{
+	public void liczbyDodanychTakichSamychProduktowSumujaSie() {
 		addProductCommandHandler.handle(addProductCommand);
 		addProductCommandHandler.handle(addProductCommand);
 		assertThat(reservation.getReservedProducts().get(0).getQuantity(), is(2));
 	}
 	
 	@Test
-	public void liczbyDodanychRoznychProduktowNieSumujaSie()
-	{
+	public void liczbyDodanychRoznychProduktowNieSumujaSie() {
 		addProductCommandHandler.handle(addProductCommand);
 		addProductCommandHandler.handle(addOtherProductCommand);
 		assertThat(reservation.getReservedProducts().get(0).getQuantity(), is(1));
+	}
+	
+	@Test
+	public void poDodaniuProduktuRezerwacjaJestZapisywana() {
+		addProductCommandHandler.handle(addProductCommand);
+		verify(reservationRepository).save(reservation);
 	}
 
 }
