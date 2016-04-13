@@ -31,7 +31,7 @@ public class AddProductCommandHandlerTest {
 	
 	ClientData clientData = new ClientData(new Id("1"), "Jan Kowalski");
 	
-	Product product;
+	Product product, otherProduct;
 	
 	ProductRepository productRepository;
 	
@@ -39,7 +39,7 @@ public class AddProductCommandHandlerTest {
 	
 	ReservationRepository reservationRepository;
 	
-	AddProductCommand addProductCommand;
+	AddProductCommand addProductCommand, addOtherProductCommand;
 	
 	AddProductCommandHandler addProductCommandHandler;
 	
@@ -49,9 +49,12 @@ public class AddProductCommandHandlerTest {
 		reservationRepository = mock(ReservationRepository.class);
 		when(reservationRepository.load(argThat(equalTo(reservation.getId())))).thenReturn(reservation);
 		product = new Product(new Id("3"), money, "ACME Product", ProductType.STANDARD);
+		otherProduct = new Product(new Id("4"), money, "Other Product", ProductType.STANDARD);
 		productRepository = mock(ProductRepository.class);
 		when(productRepository.load(argThat(equalTo(product.getId())))).thenReturn(product);
+		when(productRepository.load(argThat(equalTo(otherProduct.getId())))).thenReturn(otherProduct);
 		addProductCommand = new AddProductCommand(reservation.getId(), product.getId(), 1);
+		addOtherProductCommand = new AddProductCommand(reservation.getId(), otherProduct.getId(), 1);
 		addProductCommandHandler = new AddProductCommandHandler(reservationRepository, productRepository, null, null, null);
 	}
 	
@@ -67,6 +70,14 @@ public class AddProductCommandHandlerTest {
 		addProductCommandHandler.handle(addProductCommand);
 		addProductCommandHandler.handle(addProductCommand);
 		assertThat(reservation.getReservedProducts().get(0).getQuantity(), is(2));
+	}
+	
+	@Test
+	public void liczbyDodanychRoznychProduktowNieSumujaSie()
+	{
+		addProductCommandHandler.handle(addProductCommand);
+		addProductCommandHandler.handle(addOtherProductCommand);
+		assertThat(reservation.getReservedProducts().get(0).getQuantity(), is(1));
 	}
 
 }
