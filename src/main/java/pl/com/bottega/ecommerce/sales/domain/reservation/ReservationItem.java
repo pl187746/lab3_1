@@ -12,7 +12,7 @@ public class ReservationItem extends BaseEntity{
 	@SuppressWarnings("unused")
 	private ReservationItem(){}
 	
-	ReservationItem(Product product, int quantity) {
+	public ReservationItem(Product product, int quantity) {
 		this.product = product;
 		this.quantity = quantity;
 	}
