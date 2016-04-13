@@ -10,6 +10,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
+import java.sql.Date;
+import java.time.Instant;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -30,7 +32,7 @@ public class BookKeeperTest {
 	
 	Tax someTax = new Tax(someMoney, "TT");
 	
-	ProductData productData;
+	ProductData productData = new ProductData(Id.generate(), someMoney, "ACME Product", ProductType.STANDARD, Date.from(Instant.now()));
 	
 	InvoiceRequest invoiceRequest;
 	
@@ -38,8 +40,6 @@ public class BookKeeperTest {
 	
 	@Before
 	public void setUp() {
-		productData = mock(ProductData.class);
-		when(productData.getPrice()).thenReturn(someMoney);
 		invoiceRequest = new InvoiceRequest(client);
 		taxPolicy = mock(TaxPolicy.class);
 		when(taxPolicy.calculateTax(any(ProductType.class), any(Money.class))).thenReturn(someTax);
