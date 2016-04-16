@@ -25,44 +25,29 @@ public class ProductBuilder {
 		return new ProductData(productId, price, name, type, snapshotDate);
 	}
 
-	public Id getProductId() {
-		return productId;
-	}
-
-	public void setProductId(Id productId) {
+	public ProductBuilder withProductId(Id productId) {
 		this.productId = productId;
+		return this;
 	}
 
-	public Money getPrice() {
-		return price;
-	}
-
-	public void setPrice(Money price) {
+	public ProductBuilder withPrice(Money price) {
 		this.price = price;
+		return this;
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
+	public ProductBuilder withName(String name) {
 		this.name = name;
+		return this;
 	}
 
-	public Date getSnapshotDate() {
-		return snapshotDate;
-	}
-
-	public void setSnapshotDate(Date snapshotDate) {
+	public ProductBuilder withSnapshotDate(Date snapshotDate) {
 		this.snapshotDate = snapshotDate;
+		return this;
 	}
 
-	public ProductType getType() {
-		return type;
-	}
-
-	public void setType(ProductType type) {
+	public ProductBuilder withType(ProductType type) {
 		this.type = type;
+		return this;
 	}
 
 }
