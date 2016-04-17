@@ -32,7 +32,7 @@ public class BookKeeperTest {
 	
 	Tax someTax = new Tax(someMoney, "TT");
 	
-	ProductData productData = new ProductBuilder().build();
+	ProductData productData = new ProductBuilder().buildData();
 	
 	InvoiceRequest invoiceRequest;
 	

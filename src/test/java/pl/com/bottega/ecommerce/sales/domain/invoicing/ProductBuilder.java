@@ -5,13 +5,14 @@ import java.time.Instant;
 import java.util.Date;
 
 import pl.com.bottega.ecommerce.canonicalmodel.publishedlanguage.Id;
+import pl.com.bottega.ecommerce.sales.domain.productscatalog.Product;
 import pl.com.bottega.ecommerce.sales.domain.productscatalog.ProductData;
 import pl.com.bottega.ecommerce.sales.domain.productscatalog.ProductType;
 import pl.com.bottega.ecommerce.sharedkernel.Money;
 
 public class ProductBuilder {
 	
-	private Id productId = Id.generate();
+	private Id id = Id.generate();
 	
 	private Money price = new Money(BigDecimal.valueOf(100));
 	
@@ -21,12 +22,16 @@ public class ProductBuilder {
 		
 	private ProductType type = ProductType.STANDARD;
 	
-	public ProductData build() {
-		return new ProductData(productId, price, name, type, snapshotDate);
+	public ProductData buildData() {
+		return new ProductData(id, price, name, type, snapshotDate);
+	}
+	
+	public Product build() {
+		return new Product(id, price, name, type);
 	}
 
-	public ProductBuilder withProductId(Id productId) {
-		this.productId = productId;
+	public ProductBuilder withId(Id id) {
+		this.id = id;
 		return this;
 	}
 
