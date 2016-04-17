@@ -1,13 +1,10 @@
-package pl.com.bottega.ecommerce.sales.domain.invoicing;
+package pl.com.bottega.ecommerce.sales.domain.productscatalog;
 
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Date;
 
 import pl.com.bottega.ecommerce.canonicalmodel.publishedlanguage.Id;
-import pl.com.bottega.ecommerce.sales.domain.productscatalog.Product;
-import pl.com.bottega.ecommerce.sales.domain.productscatalog.ProductData;
-import pl.com.bottega.ecommerce.sales.domain.productscatalog.ProductType;
 import pl.com.bottega.ecommerce.sharedkernel.Money;
 
 public class ProductBuilder {
